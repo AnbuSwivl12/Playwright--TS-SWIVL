@@ -1,0 +1,11 @@
+{
+    "dev":{
+        "baseUrl":"http://develop.swivl.tech"
+    },
+    "stage":{
+        "baseUrl":"http://staging.swivl.tech"
+    },
+    "UAT":{
+        "baseUrl":"http://uat.swivl.tech"
+    }
+}

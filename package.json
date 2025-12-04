@@ -2,7 +2,16 @@
   "name": "swivl_playwright-ts",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:dev": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts",
+    "test:stage": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts",
+    "test:uat": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts",
+    "test:headed": "playwright test --headed",
+    "test:dev:headed": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts --headed",
+    "test:stage:headed": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts --headed",
+    "test:uat:headed": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

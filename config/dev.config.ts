@@ -1,12 +1,31 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
-export default defineConfig  ({
-    use: {
-        baseURL: 'http://develop.swivl.tech',
-        credentials: {
-            email: process.env.DEVELOP_USER_EMAIL || '',
-            password: process.env.DEVELOP_USER_PASSWORD || '',
-        },
+export default defineConfig({
+  testDir: "../Tests",
+  timeout: 60000,
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: "html",
+
+  use: {
+    baseURL: "http://develop.swivl.tech",
+    headless: false,
+  },
+
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
+      name: "webkit",
+      use: { ...devices["Desktop Safari"] },
+    },
+  ],
 });
-    

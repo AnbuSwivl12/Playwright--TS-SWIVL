@@ -1,6 +1,8 @@
 export interface Credentials {
   email: string;
   password: string;
+  googleEmail: string;
+  googlePassword: string;
 }
 
 export function getCredentials(env: string): Credentials {
@@ -8,19 +10,27 @@ export function getCredentials(env: string): Credentials {
 
   let email: string;
   let password: string;
+  let googleEmail: string;
+  let googlePassword: string;
 
   switch (env.toLowerCase()) {
     case "dev":
       email = process.env.DEVELOP_USER_EMAIL || "";
       password = process.env.DEVELOP_USER_PASSWORD || "";
+      googleEmail = process.env.DEVELOP_GOOGLE_EMAIL || "";
+      googlePassword = process.env.DEVELOP_GOOGLE_PASSWORD || "";
       break;
     case "stage":
       email = process.env.STAGING_USER_EMAIL || "";
       password = process.env.STAGING_USER_PASSWORD || "";
+      googleEmail = process.env.STAGING_GOOGLE_EMAIL || "";
+      googlePassword = process.env.STAGING_GOOGLE_PASSWORD || "";
       break;
     case "uat":
       email = process.env.UAT_USER_EMAIL || "";
       password = process.env.UAT_USER_PASSWORD || "";
+      googleEmail = process.env.UAT_GOOGLE_EMAIL || "";
+      googlePassword = process.env.UAT_GOOGLE_PASSWORD || "";
       break;
     default:
       throw new Error(
@@ -28,11 +38,11 @@ export function getCredentials(env: string): Credentials {
       );
   }
 
-  if (!email || !password) {
+  if (!email || !password || !googleEmail || !googlePassword) {
     throw new Error(
       `Credentials not found for environment: ${env}. Please check your .env file.`
     );
   }
 
-  return { email, password };
+  return { email, password , googleEmail, googlePassword};
 }

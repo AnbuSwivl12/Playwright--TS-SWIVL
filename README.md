@@ -195,6 +195,9 @@ You can run specific test files or use Playwright's filtering:
 # Run a specific test file
 npm run test:dev -- Tests/Smoke/login.smoke.spec.ts
 
+# Run a Specific folder
+npm run test:dev -- Tests/Smoke/Login
+
 # Run tests matching a pattern
 npm run test:dev -- --grep "smoke"
 ```

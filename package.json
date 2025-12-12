@@ -10,7 +10,16 @@
     "test:headed": "playwright test --headed",
     "test:dev:headed": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts --headed",
     "test:stage:headed": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts --headed",
-    "test:uat:headed": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed"
+    "test:uat:headed": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed",
+    "test:dev:headed:chrome": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts --headed --project=chromium",
+    "test:stage:headed:chrome": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts --headed --project=chromium",
+    "test:uat:headed:chrome": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed --project=chromium",
+    "test:dev:headed:firefox": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts --headed --project=firefox",
+    "test:stage:headed:firefox": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts --headed --project=firefox",
+    "test:uat:headed:firefox": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed --project=firefox",
+    "test:dev:headed:webkit": "node scripts/load-env.js ENV=dev playwright test --config=config/dev.config.ts --headed --project=webkit",
+    "test:stage:headed:webkit": "node scripts/load-env.js ENV=stage playwright test --config=config/stage.config.ts --headed --project=webkit",
+    "test:uat:headed:webkit": "node scripts/load-env.js ENV=uat playwright test --config=config/uat.config.ts --headed --project=webkit"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +27,7 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.57.0",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "dotenv": "^16.3.1"
   }
 }

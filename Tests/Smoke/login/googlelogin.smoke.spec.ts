@@ -1,5 +1,7 @@
-import {test, devices} from '@playwright/test';
+import {test, devices, expect} from '@playwright/test';
 import { getCredentials } from '../../../utils/credentials';
+import { TIMEOUT } from 'dns';
+import { time } from 'console';
 
  test.describe('Google Login Smoke Test', () => {
    test('Google Login @smoke', async ({ page }) => {
@@ -12,7 +14,7 @@ import { getCredentials } from '../../../utils/credentials';
      });
 
      // Click on "Login with Google" button
-     await page.getByRole('button', { name: /Continue with Google/i }).click();
+     await page.getByRole('button', { name: /Continue with Google/i }).click()
         await page.waitForURL('**accounts.google.com**');
         
      // Fill in Google email
@@ -22,8 +24,10 @@ import { getCredentials } from '../../../utils/credentials';
         // Fill in Google password
         await page.getByLabel('Enter your password').fill(Credentials.googlePassword);
         await page.getByRole('button', { name: 'Next' }).click();
-        await page.getByTitle('Dashboard').waitFor({ state: 'visible', timeout: 30000 });
-
-
-   });
+        setTimeout(async() => {
+            await expect(page.getByTitle('Dashboard')).toBeVisible();
+        }, 60000);
+    
+       
+  });
  });

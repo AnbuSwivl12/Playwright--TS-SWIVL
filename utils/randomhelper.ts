@@ -73,7 +73,7 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
   while (selectedIndexes.size < picks) {
     selectedIndexes.add(Math.floor(Math.random() * total));
   }
-
+  
   const selectedTexts: string[] = [];
 
   for (const index of selectedIndexes) {

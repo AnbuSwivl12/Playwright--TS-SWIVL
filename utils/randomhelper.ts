@@ -20,6 +20,11 @@ export function randomNum(): number {
   return Math.floor(Math.random() * 9) + 1;
 }
 
+// Generate a random 2 digit numbers
+export function randomTwoDigitNum(): number {
+  return Math.floor(Math.random() * 90) + 10;
+}
+
 // Generates a random email address with a given prefix
 export function randomEmail(prefix = 'user'): string {
   const num = randomDigits(4);
@@ -73,7 +78,7 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
   while (selectedIndexes.size < picks) {
     selectedIndexes.add(Math.floor(Math.random() * total));
   }
-  
+
   const selectedTexts: string[] = [];
 
   for (const index of selectedIndexes) {

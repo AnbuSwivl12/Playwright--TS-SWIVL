@@ -36,6 +36,7 @@ import { randomalpha,randomEmail,randomFullName,randomPhone, personalEmail, rand
             // Fill Building Units
             const buildingUnitsInput = page.locator('input[placeholder="Building / Unit / Floor"]');
             await buildingUnitsInput.fill(`Unit ${randomTwoDigitNum()}`);
+            await page.keyboard.press('Enter');
             await page.waitForTimeout(500);
 
             // Fill in Address Notes

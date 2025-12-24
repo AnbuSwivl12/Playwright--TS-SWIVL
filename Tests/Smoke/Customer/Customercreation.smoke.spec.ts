@@ -77,14 +77,42 @@ import { randomalpha,randomEmail,randomFullName,randomPhone, personalEmail, rand
             await tagDropdown.waitFor({ state: 'visible', timeout: 5000 });
             await tagDropdown.scrollIntoViewIfNeeded();
             await tagDropdown.click({ force: true });
-            const tagOptions = page.locator('input[type="checkbox"]');
-            await page.waitForTimeout(500);
+            const tagOptions = page.locator('button[role="checkbox"]');
+            await page.waitForTimeout(1000);
             await selectMultipleRandomOptions(tagOptions, 2);
+            await page.waitForTimeout(500);
+            await page.keyboard.press('Escape');
+            await page.waitForTimeout(500);
+
+            //Add Social Profiles
+            
+            const tiles = page.locator('div.cursor-pointer.rounded-lg.bg-accent');
+            await tiles.first().waitFor({ state: 'visible' });
+            await tiles.first().click(); 
+            await page.waitForTimeout(500);
+            const websiteInput = page.locator('input[placeholder="Enter Website URL"]');
+            await websiteInput.waitFor({ state: 'visible', timeout: 5000 });
+            await websiteInput.fill(`www.${randomalpha(5)}.com`);
+            const facebookInput = page.locator('input[placeholder="Enter Facebook Profile URL"]');
+            await facebookInput.waitFor({ state: 'visible', timeout: 5000 });
+            await facebookInput.fill(`www.facebook.com/${randomalpha(5)}`);
+            const instagramInput = page.locator('input[placeholder="Enter Instagram Profile URL"]');
+            await instagramInput.waitFor({ state: 'visible', timeout: 5000 });
+            await instagramInput.fill(`www.instagram.com/${randomalpha(5)}`); 
+            const twitterInput = page.locator('input[placeholder="Enter X Profile URL"]');
+            await twitterInput.waitFor({ state: 'visible', timeout: 5000 });
+            await twitterInput.fill(`www.x.com/${randomalpha(5)}`);
+            await page.waitForTimeout(500);
+            await page.locator('button:has-text("Save All Links")').click();
             await page.waitForTimeout(500);
 
             // Click Create Customer button
-            await page.getByRole('button', { name: /Save/i }).click();
-            await page.waitForTimeout(1000);
+            const saveButton = page.getByRole('button', { name: /^Save$/ });
+            await expect(saveButton).toBeVisible({ timeout: 5000 });
+            await expect(saveButton).toBeEnabled({ timeout: 5000 });
+            await saveButton.scrollIntoViewIfNeeded();
+            await saveButton.click();
+            await page.waitForTimeout(2000);
 
         });
     });

@@ -71,7 +71,7 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
   if (total === 0) {
     throw new Error('No checkbox options found for multi-select');
   }
-
+  
   const picks = Math.min(countToSelect, total);
   const selectedIndexes = new Set<number>();
 
@@ -83,7 +83,7 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
 
   for (const index of selectedIndexes) {
     const checkbox = checkboxes.nth(index);
-
+    
     await checkbox.scrollIntoViewIfNeeded();
     await expect(checkbox).toBeVisible();
     if (!(await checkbox.isChecked())) {

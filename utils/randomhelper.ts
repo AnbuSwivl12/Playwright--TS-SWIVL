@@ -83,7 +83,7 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
 
   for (const index of selectedIndexes) {
     const checkbox = checkboxes.nth(index);
-    
+
     await checkbox.scrollIntoViewIfNeeded();
     await expect(checkbox).toBeVisible();
     if (!(await checkbox.isChecked())) {
@@ -95,4 +95,17 @@ export async function selectMultipleRandomOptions(checkboxes: Locator,countToSel
   }
 
   return selectedTexts;
+}
+
+export async function selectRandomRadio(radios: Locator): Promise<string | null> {
+  const count = await radios.count();
+  if (count === 0) return null;
+
+  const index = Math.floor(Math.random() * count);
+  const radio = radios.nth(index);
+
+  await radio.click({ force: true });
+  await expect(radio).toHaveAttribute('aria-checked', 'true');
+
+  return await radio.getAttribute('value');
 }

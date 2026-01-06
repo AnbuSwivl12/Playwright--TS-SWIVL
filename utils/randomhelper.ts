@@ -1,4 +1,4 @@
-import { expect, Locator } from '@playwright/test';
+import { Page, expect, Locator } from '@playwright/test';
 
 // Generates a random alphabetic string of specified length
 export function randomalpha(count = 3): string {
@@ -108,4 +108,18 @@ export async function selectRandomRadio(radios: Locator): Promise<string | null>
   await expect(radio).toHaveAttribute('aria-checked', 'true');
 
   return await radio.getAttribute('value');
+}
+
+export async function selectRandomCalendarDay(page: Page) {
+  const days = page.locator('button.rdp-day:not([disabled])');
+
+  await expect(days.first()).toBeVisible({ timeout: 10000 });
+
+  const count = await days.count();
+  if (count === 0) {
+    throw new Error('No calendar days available');
+  }
+
+  const randomIndex = Math.floor(Math.random() * count);
+  await days.nth(randomIndex).click();
 }

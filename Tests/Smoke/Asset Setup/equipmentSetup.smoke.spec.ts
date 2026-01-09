@@ -33,7 +33,6 @@ import { randomNum, selectRandomCalendarDay, randomDigits, randomFullName } from
             // Open the Purchase date picker
             const PurchaseDatePicker = page.locator('button').filter({ has: page.locator('svg.lucide-calendar') }).first();
             await PurchaseDatePicker.click();
-
             // Select random date from calendar
             await selectRandomCalendarDay(page);
             await page.waitForTimeout(500);

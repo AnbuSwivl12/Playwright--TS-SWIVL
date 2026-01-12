@@ -1,5 +1,5 @@
 import {test, devices, expect} from '@playwright/test';
-import { getCredentials } from '../../../utils/credentials';
+import { getCredentials } from '../../../../utils/credentials';
 import { TIMEOUT } from 'dns';
 import { time } from 'console';
 

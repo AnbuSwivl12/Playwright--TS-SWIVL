@@ -1,7 +1,7 @@
 import {test, expect } from '@playwright/test';
-import { getCredentials } from '../../../utils/credentials';
-import { loginWithCredentials } from '../../../utils/loginHelper';
-import { randomNum, selectRandomOption, randomDigits } from '../../../utils/randomhelper';
+import { getCredentials } from '../../../../utils/credentials';
+import { loginWithCredentials } from '../../../../utils/loginHelper';
+import { randomNum, selectRandomOption, randomDigits } from '../../../../utils/randomhelper';
     test.describe('Vehicle Creation Smoke Test', () => {
         test('Vehicle Creation @smoke', async ({ page }) => {
             const env = process.env.ENV || 'dev';

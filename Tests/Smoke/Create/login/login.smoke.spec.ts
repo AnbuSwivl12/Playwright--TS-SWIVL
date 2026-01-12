@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { getCredentials } from "../../../utils/credentials";
+import { getCredentials } from "../../../../utils/credentials";
 
 test.describe("Login Smoke Test", () => {
   test("Login @smoke", async ({ page }) => {

@@ -82,7 +82,7 @@ import { env } from 'process';
            await page.waitForTimeout(500);
            console.log('Email added:', uniqueEmail);
            
-           // Final Send
+           // Final Send invoice
            await page.getByRole('button',{ name: /Send/i }).click();
            await page.waitForTimeout(2000);
 

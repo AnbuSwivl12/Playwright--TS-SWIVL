@@ -123,3 +123,7 @@ export async function selectRandomCalendarDay(page: Page) {
   const randomIndex = Math.floor(Math.random() * count);
   await days.nth(randomIndex).click();
 }
+
+export const getDropdownByLabel = (page: Page, label: string) => {
+  return page.locator('div').filter({ hasText: label }).locator('button[role="combobox"]').first();
+}

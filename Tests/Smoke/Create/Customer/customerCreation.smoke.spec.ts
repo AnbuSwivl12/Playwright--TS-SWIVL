@@ -16,7 +16,7 @@ import { randomalpha,randomEmail,randomFullName,randomPhone, personalEmail, rand
             // Fill in Customer Creation form
             const customerName = `Customer ${randomNum()}`;
             await page.locator('input[name="name"]').fill(customerName);
-            await page.waitForTimeout(500);
+            await page.waitForTimeout(5000);
           
             // Fill in Address details
             const addressDropdown = page.locator('button[role="combobox"]');

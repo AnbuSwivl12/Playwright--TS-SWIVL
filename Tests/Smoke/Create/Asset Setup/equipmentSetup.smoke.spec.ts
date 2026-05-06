@@ -3,8 +3,6 @@ import { getCredentials } from '../../../../utils/credentials';
 import { loginWithCredentials } from '../../../../utils/loginHelper';
 import { randomalpha, randomDigits, randomFullName, selectRandomCalendarDay } from '../../../../utils/randomhelper';
 
-// Renamed from "Vehicle Creation Smoke Test" — vehicleSetup.smoke.spec.ts has that
-// title, and Playwright was running both when a grep filter caught the duplicate.
 test.describe('Equipment Creation Smoke Test', () => {
     test('Equipment Creation @smoke', async ({ page }) => {
         const env = process.env.ENV || 'dev';
@@ -80,7 +78,6 @@ test.describe('Equipment Creation Smoke Test', () => {
         await purchasePriceField.fill(randomDigits(3).toString());
         await page.waitForTimeout(300);
 
-        // Supplied By * — NEW required field in Equipment 2.0. Without this, "Save Details"
         // stays disabled and the form never submits.
         const suppliedByField = page.locator('input[name="suppliedBy"]')
             .or(page.locator('div').filter({

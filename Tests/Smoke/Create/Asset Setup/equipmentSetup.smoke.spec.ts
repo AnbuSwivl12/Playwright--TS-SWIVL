@@ -4,7 +4,7 @@ import { loginWithCredentials } from '../../../../utils/loginHelper';
 import { randomalpha, randomDigits, randomFullName, selectRandomCalendarDay } from '../../../../utils/randomhelper';
 
 test.describe('Equipment Creation Smoke Test', () => {
-    test('Equipment Creation @smoke', async ({ page }) => {
+    test('Equipment Creation @smoke @equipment', async ({ page }) => {
         const env = process.env.ENV || 'dev';
         const credentials = getCredentials(env);
 

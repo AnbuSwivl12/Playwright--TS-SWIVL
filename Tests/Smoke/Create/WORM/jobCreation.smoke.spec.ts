@@ -17,6 +17,7 @@ import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '..
             await page.waitForTimeout(1500);
            
             // Fill in Job Creation form
+            // Field: Account Name (required per Confluence spec - WOM/1699741702)
             const customerName = page.locator('button[role="combobox"]');
             await customerName.first().waitFor({ state: 'visible', timeout: 5000 });
             await customerName.first().scrollIntoViewIfNeeded();
@@ -25,6 +26,35 @@ import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '..
             const customerOptions = page.locator('[role="option"]');
             await selectRandomOption(customerOptions);
             await page.waitForTimeout(500);
+
+            // Fill Site Address (required per Confluence spec)
+            const siteAddress = page.locator('button[role="combobox"]').filter({ hasText: /Select.*Site Address|Select an address/i });
+            if (await siteAddress.count() > 0) {
+                await siteAddress.first().waitFor({ state: 'visible', timeout: 5000 });
+                await siteAddress.first().click({ force: true });
+                await page.waitForTimeout(500);
+                const addressOptions = page.locator('[role="option"]:visible');
+                if (await addressOptions.count() > 0) {
+                    await selectRandomOption(addressOptions);
+                } else {
+                    await page.keyboard.press('Escape');
+                }
+                await page.waitForTimeout(500);
+            }
+
+            // Fill Building/Unit (optional per Confluence spec)
+            const buildingUnit = page.locator('button[role="combobox"]').filter({ hasText: /Select.*Building|Select.*Unit/i });
+            if (await buildingUnit.count() > 0) {
+                await buildingUnit.first().click({ force: true });
+                await page.waitForTimeout(500);
+                const buildingOptions = page.locator('[role="option"]:visible');
+                if (await buildingOptions.count() > 0) {
+                    await selectRandomOption(buildingOptions);
+                } else {
+                    await page.keyboard.press('Escape');
+                }
+                await page.waitForTimeout(500);
+            }
 
             // Fill Site Contact
             const siteContact = page.locator('button[role="combobox"]').filter({ hasText: 'Select a Site Contact' });
@@ -81,31 +111,41 @@ import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '..
             }
 
             // Add tags to the job
-            const tagDropdown = page.getByRole('button', {name: 'Select or add tags', exact: true});
+            const tagDropdown = page.getByRole('button', { name: 'Select or add tags', exact: true });
             await tagDropdown.waitFor({ state: 'visible', timeout: 5000 });
             await tagDropdown.scrollIntoViewIfNeeded();
             await tagDropdown.click({ force: true });
             const tagOptions = page.locator('button[role="checkbox"]');
-            await page.waitForTimeout(1000);
+           
+            await page.waitForTimeout(500);
+            const tagCount = await tagOptions.count();
+            if (tagCount > 0) {
             await selectRandomOption(tagOptions);
-            await page.waitForTimeout(500);
-            const saveButton = page.getByRole('button', { name: 'Save' });
-            await saveButton.waitFor({ state: 'visible', timeout: 5000 });
-            await saveButton.click();
-            await page.waitForTimeout(500);
+            await page.getByRole('button', { name: /^Save$/i }).click();
+            } 
+            else {
+            await page.keyboard.press('Escape');
+            }
 
-            // Add Job name
+            // Add Job name (required, max 50 chars per Confluence spec)
             const jobName = page.getByPlaceholder('Enter a clear job title');
-            const jobTitle = `Job ${randomalpha(4)}`;
+            const jobTitle = `Job ${randomalpha(4)}`.slice(0, 50);
             await jobName.fill(jobTitle);
             await page.waitForTimeout(500);
 
-            // Generate Description
+            // Generate Description (Jobs 2.0 - AI assist)
             await page.getByRole('button', { name: 'Generate' }).click();
             await page.waitForTimeout(2000);
 
             // Click Save button
-            await page.getByRole('button', { name: /Save/i }).click();
+            const saveJobButton = page.getByRole('button', { name: /^Save( Job)?$/i });
+            await expect(saveJobButton).toBeVisible({ timeout: 5000 });
+            await expect(saveJobButton).toBeEnabled({ timeout: 5000 });
+            await saveJobButton.click();
             await page.waitForTimeout(2000);
+
+            // Verify Job creation success
+            // Per Confluence spec: "Save Job CTA → Success pop-up → Navigate to Jobs list screen"
+            await expect(page).toHaveURL(/jobs/i, { timeout: 10000 });
         });
     });

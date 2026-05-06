@@ -2,8 +2,8 @@ import {test, expect } from '@playwright/test';
 import { getCredentials } from '../../../utils/credentials';
 import { loginWithCredentials } from '../../../utils/loginHelper';
 import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '../../../utils/randomhelper';
-    test.describe('Job Creation Smoke Test', () => {
-        test('Job Creation @smoke', async ({ page }) => {
+    test.describe('Add Cost to Job E2E Test', () => {
+        test('Add Labor/Material/Equipment/Vehicle/Subcontractor/Other costs @e2e', async ({ page }) => {
             const env = process.env.ENV || 'dev';
             const credentials = getCredentials(env);
             // Login using helper function
@@ -167,5 +167,15 @@ import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '..
             await page.waitForTimeout(500);
             await otherSection.locator('button:has(svg.lucide-check)').click();
             await page.waitForTimeout(500);
+
+            // Verify all 6 cost types are reflected on the Job
+            // Per Confluence spec: All Costs CTA shows cumulative
+            // Labor, Material, Tools/Equip, Subcontractor, Vehicle, Other from tasks/job.
+            await expect(page.getByRole('button', { name: /Labors/i })).toBeVisible();
+            await expect(page.getByRole('button', { name: /Material/i })).toBeVisible();
+            await expect(page.getByRole('button', { name: /Equipment/i })).toBeVisible();
+            await expect(page.getByRole('button', { name: /Vehicle/i })).toBeVisible();
+            await expect(page.getByRole('button', { name: /Subcontractor/i })).toBeVisible();
+            await expect(page.getByRole('button', { name: /Other/i })).toBeVisible();
     });
 });

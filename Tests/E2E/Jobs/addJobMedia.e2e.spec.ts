@@ -81,18 +81,22 @@ import { randomalpha, selectRandomOption, selectMultipleRandomOptions } from '..
             }
 
             // Add tags to the job
-            const tagDropdown = page.getByRole('button', {name: 'Select or add tags', exact: true});
+            const tagDropdown = page.getByRole('button', { name: 'Select or add tags', exact: true });
             await tagDropdown.waitFor({ state: 'visible', timeout: 5000 });
             await tagDropdown.scrollIntoViewIfNeeded();
             await tagDropdown.click({ force: true });
             const tagOptions = page.locator('button[role="checkbox"]');
-            await page.waitForTimeout(1000);
+           
+            await page.waitForTimeout(500);
+            const tagCount = await tagOptions.count();
+            if (tagCount > 0) {
             await selectRandomOption(tagOptions);
-            await page.waitForTimeout(500);
-            const saveButton = page.getByRole('button', { name: 'Save' });
-            await saveButton.waitFor({ state: 'visible', timeout: 5000 });
-            await saveButton.click();
-            await page.waitForTimeout(500);
+            await page.getByRole('button', { name: /^Save$/i }).click();
+            } 
+            else {
+            await page.keyboard.press('Escape');
+            }
+            
 
             // Add Job name
             const jobName = page.getByPlaceholder('Enter a clear job title');
